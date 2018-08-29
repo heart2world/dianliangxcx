@@ -1,0 +1,35 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('user/index')}">{:L('ADMIN_USER_INDEX')}</a></li>
+			<li class="active"><a>管理员详情</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" action="#">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">姓名：</label>
+					<div class="controls">
+						<label>{$user_nicename}</label>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">手机号：</label>
+					<div class="controls">
+						<label>{$user_login}</label>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{:L('ROLE')}：</label>
+					<div class="controls">
+						<label style="margin-top: 5px;">{$rolename}</label>
+					</div>
+				</div>
+			</fieldset>
+			
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

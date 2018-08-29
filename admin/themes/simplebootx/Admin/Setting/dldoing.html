@@ -1,0 +1,64 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap" id="app">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="javascript:;">电量余额提醒</a></li>
+		</ul>
+		
+		<form class="form-horizontal" id="tagforms" method="post" enctype="multipart/form-data">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label"></label>
+					<div class="controls">
+						当剩余电量小于&nbsp;<input type="number" style="width:50px;" name="lessdianliang" min="1" placeholder="输入大于0的整数" value="{$info.lessdianliang}">&nbsp;时，进行余额提醒。
+					</div>
+				</div>
+				
+			</fieldset>
+			<div class="form-actions">
+				<input type="button" @click="add()" class="btn btn-primary" value="保存"/>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script src="__PUBLIC__/js/vue.js"></script>
+	<script src="__PUBLIC__/js/content_addtop.js"></script>
+	<script src="__PUBLIC__/js/define_my.js"></script>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>	
+	<script>
+		var app = new Vue({
+			el:"#app",
+			data:{
+				info:{},				
+			},
+			created:function () {
+			},
+			methods:{
+				add:function () {	
+				     var tagvals=$('#tagforms').serialize();				
+					$.ajax({
+						url:'{:U("Setting/dldoingpost")}',
+						data:tagvals,
+						type:"POST",
+						dataType:"json",
+						success:function (res) {							
+							if(res.status==0){
+								$.dialog({id: 'popup', lock: true,icon:"succeed", content: res.msg, time: 2});
+								setInterval(function(){
+									location.href='{:U("Setting/dldoing")}';
+								},2000)
+							}
+							else {
+								$.dialog({id: 'popup', lock: true,icon:"warning", content: res.msg, time: 2});
+							}
+						}
+
+					})
+				}
+			}
+		});	
+
+	</script>
+</body>
+</html>

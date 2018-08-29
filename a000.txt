@@ -1,0 +1,1 @@
+ and endatatime between '2018-01-01' and '2019-01-01'

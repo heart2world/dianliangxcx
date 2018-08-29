@@ -1,0 +1,92 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap" id="app">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('School/index')}">学校管理</a></li>
+			<li class="active"><a href="{:U('School/add')}">新增</a></li>
+		</ul>
+		
+		<form class="form-horizontal" id="tagforms" method="post" enctype="multipart/form-data">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">学校名称</label>
+					<div class="controls">
+						<input type="text" name="schoolname" maxlength="20" value="{$schoolname}">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">校徽：</label>
+					<div class="controls">
+						<input type="hidden" name="avartar" id="thumb" value="{$avartar}">
+						<a href="javascript:upload_one_image('图片上传','#thumb');">		
+							<if condition="$avartar neq ''">
+							<img src="{$avartar2}" id="thumb-preview" width="100" height="100" style="cursor: hand" />
+							<else/>
+							<img src="__TMPL__Public/assets/images/default-thumbnail.png" id="thumb-preview" width="100" height="100" style="cursor: hand" />
+							</if>
+						</a>
+						<input type="button" class="btn btn-small" onclick="$('#thumb-preview').attr('src','__TMPL__Public/assets/images/default-thumbnail.png');$('#thumb').val('');return false;" value="取消图片">
+					</div><br/>
+					<div style="margin-left: 180px;color: red;">建议图片尺寸：200*200</div>
+				</div>				
+				
+				<volist name="xiaoqu" id="val" key="key">
+				<div class="control-group">
+					<label class="control-label"><if condition="$key eq 1">校区<else/>&nbsp;</if></label>
+					<div class="controls">
+						<input type="text" name="xiaoquname[]" readonly maxlength="20" value="{$val.xiaoqu}">
+						<input type="hidden" name="xiaoqu_id[]"  value="{$val.xiaoqu_id}">
+					</div>
+				</div>
+				</volist>
+			</fieldset>
+			<div class="form-actions">
+				<input type="hidden" name="id" value="{$id}">
+				<input type="hidden" name="oldschoolname" value="{$schoolname}">
+				<input type="button" @click="add()" class="btn btn-primary" value="保存"/>
+				<a class="btn" href="javascript:history.back(-1);">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script src="__PUBLIC__/js/vue.js"></script>
+	<script src="__PUBLIC__/js/content_addtop.js"></script>
+	<script src="__PUBLIC__/js/define_my.js"></script>
+	<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>	
+	<script>
+		var app = new Vue({
+			el:"#app",
+			data:{
+				info:{},				
+			},
+			created:function () {
+			},
+			methods:{
+				add:function () {	
+				     var tagvals=$('#tagforms').serialize();				
+					$.ajax({
+						url:'{:U("School/edit_post")}',
+						data:tagvals,
+						type:"POST",
+						dataType:"json",
+						success:function (res) {							
+							if(res.status==0){
+								$.dialog({id: 'popup', lock: true,icon:"succeed", content: res.msg, time: 2});
+								setInterval(function(){
+									location.href='{:U("School/index")}';
+								},2000)
+							}
+							else {
+								$.dialog({id: 'popup', lock: true,icon:"warning", content: res.msg, time: 2});
+							}
+						}
+
+					})
+				}
+			}
+		});	
+
+	</script>
+</body>
+</html>

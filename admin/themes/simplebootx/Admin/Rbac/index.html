@@ -1,0 +1,45 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('rbac/index')}">{:L('ADMIN_RBAC_INDEX')}</a></li>
+			<li><a href="{:U('rbac/roleadd')}">{:L('ADMIN_RBAC_ROLEADD')}</a></li>
+		</ul>
+		<form action="{:U('Rbac/listorders')}" method="post">
+			<table class="table table-hover table-bordered">
+				<thead>
+					<tr>
+						<th style="text-align:center;max-width:50px;">ID</th>
+						<th style="text-align:center;max-width:100px;">{:L('ROLE_NAME')}</th>
+						<th style="text-align:center;max-width:150px;">{:L('ROLE_DESCRIPTION')}</th>						
+						<th style="text-align:center;max-width:150px;">{:L('ACTIONS')}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<foreach name="roles" item="vo">
+					<tr>
+						<td style="text-align:center;">{$vo.id}</td>
+						<td style="text-align:center;">{$vo.name}</td>
+						<td style="text-align:center;">{$vo.remark}</td>						
+						<td style="text-align:center;">
+							<if condition="$vo['id'] eq 1">
+								<font  class="btn" style="background:#1abc9c">{:L('ROLE_SETTING')}</font>
+								<font  class="btn" style="background:#1abc9c">{:L('EDIT')}</font> 
+								<font class="btn" style="background:#1abc9c">{:L('DELETE')}</font>
+							<else />
+								<a href="{:U('Rbac/authorize',array('id'=>$vo['id']))}" class="btn" style="background:#1abc9c">{:L('ROLE_SETTING')}</a>
+							
+								<a href="{:U('Rbac/roleedit',array('id'=>$vo['id']))}"  class="btn" style="background:#1abc9c">{:L('EDIT')}</a>
+								<a class="js-ajax-delete btn" href="{:U('Rbac/roledelete',array('id'=>$vo['id']))}" style="background:#1abc9c">{:L('DELETE')}</a>
+							</if>
+						</td>
+					</tr>
+					</foreach>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>
